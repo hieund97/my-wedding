@@ -274,7 +274,6 @@ textarea:focus {
     z-index: 1;
     position: relative;
 	left:0;
-	border-bottom:1px solid #2f2f2f;
 }
 .wd_mainmenu_wrapper{
 	float:left;
