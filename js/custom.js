@@ -43,7 +43,7 @@
 	$(window).scroll(function(){
 		var window_top = $(window).scrollTop() + 1; 
 		if (window_top > 500) {
-			$('.wd_header_wrapper').addClass('menu_fixed animated fadeInDown');
+			$('.wd_header_wrapper').addClass('menu_fixed animated');
 		} else {
 			$('.wd_header_wrapper').removeClass('menu_fixed animated fadeInDown');
 		}
@@ -348,7 +348,7 @@
 				}else{
 					revapi476 = tpj("#rev_slider_476_1").show().revolution({
 						sliderType:"standard",
-jsFileLocation:"revolution/js/",
+						jsFileLocation:"revolution/js/",
 						sliderLayout:"fullscreen",
 						dottedOverlay:"none",
 						delay:9000,
