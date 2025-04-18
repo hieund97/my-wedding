@@ -2060,6 +2060,12 @@ textarea:focus {
     padding: 20px 0px;
 }
 
+.story-image {
+    width: 220px; 
+    height: 320px; 
+    object-fit: cover;
+}
+
 
 @media (max-width: 767px) {
 
