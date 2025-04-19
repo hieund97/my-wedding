@@ -847,6 +847,22 @@
 						$("input[name='full_name']").val("");
 						$("textarea[name='message']").val("");
 					},
+					error: function (xhr) {
+						if (xhr.status === 422) {
+							// Lỗi validate từ Laravel
+							var errors = xhr.responseJSON.errors;
+							Object.values(errors).forEach(function (errorMessages) {
+								errorMessages.forEach(function (message) {
+									toastr.error(message);
+								});
+							});
+						} else if (xhr.responseJSON && xhr.responseJSON.error) {
+							// Lỗi custom khác
+							toastr.error(xhr.responseJSON.error);
+						} else {
+							toastr.error("Đã xảy ra lỗi, vui lòng thử lại!");
+						}
+					},
 					error: function () {
 						toastr.error("Đã xảy ra lỗi, vui lòng thử lại!");
 					},
