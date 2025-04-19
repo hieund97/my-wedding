@@ -822,7 +822,8 @@
 
 			fetchWishes();
 
-			$("#wish_submit_form").on("click", function () {
+			$("#wish_submit_form").on("click", function (e) {
+				e.preventDefault();
 				var fullName = $("input[name='full_name']").val();
 				var message = $("textarea[name='message']").val();
 				var button = $(this);
@@ -837,9 +838,6 @@
 				$.ajax({
 					url: domain + "api/wish", // Replace with your server endpoint
 					type: "POST",
-					headers: {
-						"Access-Control-Allow-Origin": "*",
-					},
 					data: {
 						name: fullName,
 						wish_message: message
