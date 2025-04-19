@@ -9,7 +9,7 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta name="description" content="Đám cưới của Hiếu ❤️ Vân Anh " />
 	<meta name="keywords" content="Cùng chung vui và xem hành trình của chúng mình nhé" />
-	<meta property="og:image" content="images/header/logo.png">
+	<meta property="og:image" content="https://hieuvananh.com/images/header/logo.png">
 	<meta name="author" content="" />
 	<meta name="MobileOptimized" content="320" />
 	<!--srart theme style -->
@@ -29,6 +29,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 	<!-- favicon links -->
 	<link rel="shortcut icon" type="image/ico" href="images/header/favicon.ico" />
+
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -58,6 +60,7 @@
 										<li><a href="0">Home</a></li>
 										<li><a href="1">Thiệp mời</a></li>
 										<li><a href="3">Thời gian tổ chức</a></li>
+										<li><a href="4">Hộp mừng cưới</a></li>
 										<li><a href="2">Hành trình</a></li>
 										<li><a href="6">Ảnh cưới</a></li>
 									</ul>
@@ -410,7 +413,7 @@
 										</div>
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<div class="wd_btn">
-												<button type="button" class="submitForm" form-type="inquiry">Gửi lời
+												<button type="button" id="wish_submit_form" form-type="inquiry">Gửi lời
 													chúc</button>
 											</div>
 										</div>
@@ -423,27 +426,12 @@
 			</div>
 		</div>
 		<!-- Testimonial Wrapper End -->
-		<div class="wd_testimonial_wrapper wd_toppadder70 wd_bottompadder70">
+		<div class="wd_testimonial_wrapper wd_toppadder70 wd_bottompadder70" id="wish_list_container">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="wd_testimonial_slider">
-							<div class="owl-carousel owl-theme">
-								<div class="item">
-									<div class="wd_testimo_box">
-										<img src="images/content/heart.png" alt="Testimonial">
-										<p>“ Better to have loved and lost, than to have never loved ”</p>
-										<h4>~ Akshay H ~</h4>
-									</div>
-								</div>
-								<div class="item">
-									<div class="wd_testimo_box">
-										<img src="images/content/heart.png" alt="Testimonial">
-										<p>“ I look at you and see the rest of my life in front of my eyes. ”</p>
-										<h4>~ Ajay S ~</h4>
-									</div>
-								</div>
-							</div>
+							<div class="owl-carousel owl-theme" id="list_wish"></div>
 						</div>
 					</div>
 				</div>
@@ -815,6 +803,7 @@
 	<script type="text/javascript" src="js/plugin/rs_slider/revolution.extension.slideanims.min.js"></script>
 	<script type="text/javascript" src="js/plugin/rs_slider/revolution.extension.video.min.js"></script>
 	<script type="text/javascript" src="js/custom.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script>
 		$(window).on("load", function () {
 			var wow = new WOW({
@@ -826,6 +815,87 @@
 			});
 			wow.init();
 		});
+
+		$(document).ready(function () {
+
+			fetchWishes();
+
+			$("#wish_submit_form").on("click", function () {
+				var fullName = $("input[name='full_name']").val();
+				var message = $("textarea[name='message']").val();
+				var button = $(this);
+
+				if (!fullName || !message) {
+					toastr.error("Vui lòng điền đầy đủ thông tin!");
+					return;
+				}
+
+				button.prop("disabled", true).html('<i class="fa fa-spinner fa-spin"></i> Đang gửi...');
+
+				$.ajax({
+					url: "http://localhost:9081/api/wish", // Replace with your server endpoint
+					type: "POST",
+					headers: {
+						"Access-Control-Allow-Origin": "*"
+					},
+					data: {
+						name: fullName,
+						wish_message: message
+					},
+					success: function (response) {
+						toastr.success("Lời chúc của bạn đã được gửi thành công!");
+						$("input[name='full_name']").val("");
+						$("textarea[name='message']").val("");
+					},
+					error: function () {
+						toastr.error("Đã xảy ra lỗi, vui lòng thử lại!");
+					},
+					complete: function () {
+						button.prop("disabled", false).html("Gửi lời chúc");
+					}
+				});
+			});
+		});
+
+
+		function fetchWishes() {
+			$.ajax({
+				url: "http://localhost:9081/api/get-wish", // Replace with your server endpoint
+				type: "GET",
+				headers: {
+					"Access-Control-Allow-Origin": "*"
+				},
+				success: function (response) {
+					var wishList = $("#list_wish");
+					wishList.empty(); // Clear existing wishes
+					response.forEach(function (wish) {
+						var wishItem = `
+							<div class="item">
+								<div class="wd_testimo_box">
+									<img src="images/content/heart.png" alt="Testimonial">
+									<p>${wish.wish_message}</p>
+									<h4> ~ ${wish.name} ~</h4>
+								</div>
+							</div>`;
+						wishList.append(wishItem);
+					});
+					wishList.owlCarousel('destroy'); // Destroy the existing carousel
+					wishList.owlCarousel({ // Reinitialize the carousel with the same settings
+						items: 1,
+						loop: true,
+						margin: 10,
+						nav: false,
+						dots: false,
+						autoplay: true,
+						autoplayTimeout: 5000,
+						autoplayHoverPause: true
+					});
+				},
+				error: function () {
+					toastr.error("Không thể tải danh sách lời chúc, vui lòng thử lại!");
+				}
+			});
+		}
 	</script>
 	<!--main js file end-->
 </body>

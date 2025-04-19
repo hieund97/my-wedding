@@ -211,6 +211,11 @@
 			});
 		}
 	});
+
+	
+
+
+
 	
 	// Single page scroll menu
 	$('.wd_single_index_menu ul li a').on('click' , function(e){
