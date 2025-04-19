@@ -2077,6 +2077,7 @@ textarea:focus {
 
 .qr-box {
     border: 1px solid #fff; 
+    border-style: dashed;
     padding: 20px; 
     text-align: center;
     margin: 10px;
