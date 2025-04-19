@@ -838,6 +838,9 @@
 				$.ajax({
 					url: domain + "api/wish", // Replace with your server endpoint
 					type: "POST",
+					headers: {
+						"Accept": "application/json"
+					},
 					data: {
 						name: fullName,
 						wish_message: message
@@ -862,9 +865,6 @@
 						} else {
 							toastr.error("Đã xảy ra lỗi, vui lòng thử lại!");
 						}
-					},
-					error: function () {
-						toastr.error("Đã xảy ra lỗi, vui lòng thử lại!");
 					},
 					complete: function () {
 						button.prop("disabled", false).html("Gửi lời chúc");
