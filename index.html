@@ -816,6 +816,8 @@
 			wow.init();
 		});
 
+		var domain = "http://admin.hieuvananh.com/"
+
 		$(document).ready(function () {
 
 			fetchWishes();
@@ -833,7 +835,7 @@
 				button.prop("disabled", true).html('<i class="fa fa-spinner fa-spin"></i> Đang gửi...');
 
 				$.ajax({
-					url: "http://localhost:9081/api/wish", // Replace with your server endpoint
+					url: domain + "api/wish", // Replace with your server endpoint
 					type: "POST",
 					headers: {
 						"Access-Control-Allow-Origin": "*"
@@ -860,7 +862,7 @@
 
 		function fetchWishes() {
 			$.ajax({
-				url: "http://localhost:9081/api/get-wish", // Replace with your server endpoint
+				url: domain + "api/get-wish", // Replace with your server endpoint
 				type: "GET",
 				headers: {
 					"Access-Control-Allow-Origin": "*"
