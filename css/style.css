@@ -678,7 +678,6 @@ textarea:focus {
 .wd_story_wrapper{
 	float:left;
 	width:100%;
-	background-image:url(../images/content/story_bg.jpg);
 	background-size:cover;
 	background-position:100% 100%;
 	background-repeat:no-repeat;
@@ -898,7 +897,7 @@ textarea:focus {
 .wd_guest_wrapper{
 	float:left;
 	width:100%;
-	background-image:url(../images/content/guest_bg.jpg);
+	background-image:url(../images/backstory.webp);
 	background-size:cover;
 	background-position:100% 100%;
 	background-repeat:no-repeat;
@@ -922,7 +921,7 @@ textarea:focus {
 .wd_guest_infobox{
 	float:left;
 	width:100%;
-    padding: 60px 0px 30px 0px;
+    padding: 0px 0px 30px 0px;
 }
 .wd_guest_infobox h2{
 	float:left;
@@ -948,7 +947,7 @@ textarea:focus {
 }
 .wd_guest_formbox{
 	float: right;
-    width: 90%;
+    width: 100%;
     background-color: #fafafa;
     text-align: center;
 	padding:45px 0px 0px 0px;
@@ -982,7 +981,7 @@ textarea:focus {
 	color:#111111;
 	font-style:italic;
 }
-.wd_guest_form  input, .wd_guest_form  select{
+.wd_guest_form  input, .wd_guest_form  select, .wd_guest_form  textarea{
 	float:left;
 	width:100%;
 	height:50px;
@@ -1628,6 +1627,16 @@ textarea:focus {
     right: 0;
     z-index: 0;
 }
+.wd_story{
+    content: "";
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+}
 .wd_contact_wrapper .wd_heading h1{
 	color:#ffffff;
 }
@@ -2066,8 +2075,26 @@ textarea:focus {
     object-fit: cover;
 }
 
+.qr-box {
+    border: 1px solid #fff; 
+    padding: 20px; 
+    text-align: center;
+    margin: 10px;
+}
+
+.fl-box-qr {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 
 @media (max-width: 767px) {
+
+    .qr-box {
+        width: 100%;
+        margin: 10px auto !important;
+    }
 
 .wd_slider_textinfo {
     width: 70%;
