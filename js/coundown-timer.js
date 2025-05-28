@@ -22,8 +22,13 @@
 			currentDate = Math.floor($.now() / 1000);
 			
 			if(eventDate <= currentDate) {
+				thisEl.find(".days").text("00");
+				thisEl.find(".hours").text("00");
+				thisEl.find(".minutes").text("00");
+				thisEl.find(".seconds").text("00");
 				callback.call(this);
 				clearInterval(interval);
+				return;
 			}
 			
 			seconds = eventDate - currentDate;
