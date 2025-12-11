@@ -83,51 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const originalText = btn.innerText;
       btn.innerText = "Đang gửi...";
       btn.disabled = true;
-
-      // Use WishManager to send
-      WishManager.sendWish(
-        nameInput.value,
-        messageInput.value,
-        2, // Baby Type
-        function (response) {
-          // Success
-          // Prepend new wish immediately (optimistic UI) or fetch again
-          const initial = nameInput.value.charAt(0).toUpperCase();
-          const colors = [
-            "#81D4FA",
-            "#FFCDD2",
-            "#C5CAE9",
-            "#B39DDB",
-            "#80DEEA",
-          ];
-          const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-          const newWishHTML = `
-                <div class="wish-card fade-in-up">
-                    <div class="wish-avatar" style="background-color: ${randomColor};">${initial}</div>
-                    <div class="wish-content">
-                        <h4>${nameInput.value}</h4>
-                        <p>${messageInput.value}</p>
-                    </div>
-                </div>`;
-
-          // If empty message exists, remove it
-          if (wishesListContainer.find(".text-muted").length > 0) {
-            wishesListContainer.empty();
-          }
-
-          wishesListContainer.prepend(newWishHTML);
-          wishesListContainer.scrollTop(0);
-
-          form.reset();
-        },
-        null, // Error handled by lib
-        function () {
-          // Complete
-          btn.innerText = originalText;
-          btn.disabled = false;
-        }
-      );
     });
   }
 

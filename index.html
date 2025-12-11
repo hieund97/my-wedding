@@ -885,10 +885,6 @@
 					function () { // Success
 						$("input[name='full_name']").val("");
 						$("textarea[name='message']").val("");
-						// Reload wishes to show new one (optional, or append manually)
-						WishManager.fetchWishes(1, function (response) {
-							renderWishes(response);
-						});
 					},
 					null, // Error handled by lib
 					function () { // Complete
