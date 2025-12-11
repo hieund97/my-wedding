@@ -374,7 +374,7 @@
 			<div class="wd_overlay"></div>
 			<div class="container">
 				<div class="row fl-box-qr">
-					<!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div class="wd_guest_infobox">
 							<h2 style="text-align: center;"><span style="font-size: 50px;">Hộp mừng cưới</span></h2>
 							<p style="margin-bottom: 10px;">Thật vui vì được gặp và đón tiếp các bạn trong một dịp
@@ -400,7 +400,7 @@
 						</div>
 
 
-					</div> -->
+					</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<div class="wd_guest_formbox">
 							<span>Sổ lưu bút</span>
@@ -455,9 +455,9 @@
 						</div>
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-						<video style="width: 100%;" id="my-video" class="video-js" controls preload="auto" 
+						<video style="width: 100%;" id="my-video" class="video-js" controls preload="auto"
 							poster="images/thumbvideo.png" controlsList="nodownload" data-setup="{}">
-							<source src="video/wedding_mv.mp4"  type="video/mp4" />
+							<source src="video/wedding_mv.mp4" type="video/mp4" />
 							<p class="vjs-no-js">
 								To view this video please enable JavaScript, and consider upgrading to a
 								web browser that
@@ -848,6 +848,7 @@
 	<script type="text/javascript" src="js/plugin/rs_slider/revolution.extension.video.min.js"></script>
 	<script type="text/javascript" src="js/custom.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script type="text/javascript" src="js/wishes.js"></script>
 	<script src="https://vjs.zencdn.net/8.22.0/video.min.js"></script>
 	<script>
 		$(window).on("load", function () {
@@ -865,7 +866,9 @@
 
 		$(document).ready(function () {
 
-			fetchWishes();
+			WishManager.fetchWishes(1, function (response) {
+				renderWishes(response);
+			});
 
 			$("#wish_submit_form").on("click", function (e) {
 				e.preventDefault();
@@ -873,90 +876,62 @@
 				var message = $("textarea[name='message']").val();
 				var button = $(this);
 
-				if (!fullName || !message) {
-					toastr.error("Vui lòng điền đầy đủ thông tin!");
-					return;
-				}
-
 				button.prop("disabled", true).html('<i class="fa fa-spinner fa-spin"></i> Đang gửi...');
 
-				$.ajax({
-					url: domain + "api/wish", // Replace with your server endpoint
-					type: "POST",
-					headers: {
-						"Accept": "application/json"
-					},
-					data: {
-						name: fullName,
-						wish_message: message
-					},
-					success: function (response) {
-						toastr.success("Lời chúc của bạn đã được gửi thành công!");
+				WishManager.sendWish(
+					fullName,
+					message,
+					1,
+					function () { // Success
 						$("input[name='full_name']").val("");
 						$("textarea[name='message']").val("");
+						// Reload wishes to show new one (optional, or append manually)
+						WishManager.fetchWishes(1, function (response) {
+							renderWishes(response);
+						});
 					},
-					error: function (xhr) {
-						if (xhr.status === 422) {
-							// Lỗi validate từ Laravel
-							var errors = xhr.responseJSON.errors;
-							Object.values(errors).forEach(function (errorMessages) {
-								errorMessages.forEach(function (message) {
-									toastr.error(message);
-								});
-							});
-						} else if (xhr.responseJSON && xhr.responseJSON.error) {
-							// Lỗi custom khác
-							toastr.error(xhr.responseJSON.error);
-						} else {
-							toastr.error("Đã xảy ra lỗi, vui lòng thử lại!");
-						}
-					},
-					complete: function () {
+					null, // Error handled by lib
+					function () { // Complete
 						button.prop("disabled", false).html("Gửi lời chúc");
 					}
-				});
+				);
 			});
 		});
 
+		function renderWishes(wishes) {
+			var wishList = $("#list_wish");
+			// Check if Owl Carousel is initialized
+			if (wishList.hasClass('owl-carousel')) {
+				wishList.owlCarousel('destroy'); // Destroy if exists
+			}
+			wishList.empty(); // Clear existing
 
-		function fetchWishes() {
-			$.ajax({
-				url: domain + "api/get-wish", // Replace with your server endpoint
-				type: "GET",
-				headers: {
-					"Access-Control-Allow-Origin": "*"
-				},
-				success: function (response) {
-					var wishList = $("#list_wish");
-					wishList.empty(); // Clear existing wishes
-					response.forEach(function (wish) {
-						var wishItem = `
-							<div class="item">
-								<div class="wd_testimo_box">
-									<img src="images/content/heart.png" alt="Testimonial">
-									<p>${wish.wish_message}</p>
-									<h4> ~ ${wish.name} ~</h4>
-								</div>
-							</div>`;
-						wishList.append(wishItem);
-					});
-					wishList.owlCarousel('destroy'); // Destroy the existing carousel
-					wishList.owlCarousel({ // Reinitialize the carousel with the same settings
-						items: 1,
-						loop: true,
-						margin: 10,
-						nav: false,
-						dots: false,
-						autoplay: true,
-						autoplayTimeout: 1800,
-						autoplayHoverPause: true
-					});
-				},
-				error: function () {
-					toastr.error("Không thể tải danh sách lời chúc, vui lòng thử lại!");
-				}
+			wishes.forEach(function (wish) {
+				var wishItem = `
+                    <div class="item">
+                        <div class="wd_testimo_box">
+                            <img src="images/content/heart.png" alt="Testimonial">
+                            <p>${wish.wish_message}</p>
+                            <h4> ~ ${wish.name} ~</h4>
+                        </div>
+                    </div>`;
+				wishList.append(wishItem);
+			});
+
+			wishList.owlCarousel({
+				items: 1,
+				loop: true,
+				margin: 10,
+				nav: false,
+				dots: false,
+				autoplay: true,
+				autoplayTimeout: 1800,
+				autoplayHoverPause: true
 			});
 		}
+
+
+
 	</script>
 	<!--main js file end-->
 </body>
