@@ -36,6 +36,93 @@
 </head>
 
 <body>
+	<!-- Navigation Link to Baby Page -->
+	<style>
+		@keyframes floatBtnPulse {
+
+			0%,
+			100% {
+				transform: scale(1);
+				box-shadow: 0 4px 20px rgba(255, 183, 78, 0.5);
+			}
+
+			50% {
+				transform: scale(1.05);
+				box-shadow: 0 6px 30px rgba(255, 183, 78, 0.7);
+			}
+		}
+
+		@keyframes floatBtnBounce {
+
+			0%,
+			20%,
+			50%,
+			80%,
+			100% {
+				transform: translateY(0);
+			}
+
+			40% {
+				transform: translateY(-8px);
+			}
+
+			60% {
+				transform: translateY(-4px);
+			}
+		}
+
+		.floating-nav-btn {
+			position: fixed;
+			bottom: 25px;
+			right: 20px;
+			z-index: 9999;
+			background: linear-gradient(135deg, #ffb74e, #ff9800);
+			color: #fff;
+			padding: 14px 28px;
+			border-radius: 50px;
+			font-family: 'Lora', serif;
+			font-size: 16px;
+			font-weight: 600;
+			text-decoration: none;
+			box-shadow: 0 4px 20px rgba(255, 183, 78, 0.5);
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			animation: floatBtnPulse 2s ease-in-out infinite;
+			transition: all 0.3s ease;
+		}
+
+		/* Mobile responsive */
+		@media (max-width: 768px) {
+			.floating-nav-btn {
+				padding: 12px 20px;
+				font-size: 14px;
+				bottom: 20px;
+				right: 15px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.floating-nav-btn {
+				padding: 10px 16px;
+				font-size: 13px;
+				gap: 6px;
+			}
+		}
+
+		.floating-nav-btn:hover {
+			animation: floatBtnBounce 1s ease infinite;
+			background: linear-gradient(135deg, #ff9800, #f57c00);
+		}
+
+		.floating-nav-btn .btn-icon {
+			font-size: 20px;
+			animation: none;
+		}
+	</style>
+	<a href="/my-baby" class="floating-nav-btn">
+		<span class="btn-icon">👶</span> Bé mỡ của bố mẹ →
+	</a>
 	<!-- preloader Start -->
 	<div id="preloader">
 		<div id="status"><img src="images/header/preloader.gif" id="preloader_image" alt="loader">

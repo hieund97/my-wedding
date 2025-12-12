@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cu Mỡ của bố mẹ ❤️</title>
     <meta name="description" content="Hành trình của cu Mỡ ❤️" />
-	<meta name="keywords" content="Cu Mỡ của bố mẹ và hành trình chào con đến với gia đình ❤️" />
-	<meta property="og:image" content="https://hieuvananh.com/images/anh-cu-mo/giang-sinh.webp">
+    <meta name="keywords" content="Cu Mỡ của bố mẹ và hành trình chào con đến với gia đình ❤️" />
+    <meta property="og:image" content="https://hieuvananh.com/images/anh-cu-mo/giang-sinh.webp">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +22,92 @@
 </head>
 
 <body>
+    <!-- Navigation Link to Wedding Page -->
+    <style>
+        @keyframes floatBtnPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 20px rgba(129, 212, 250, 0.5);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 30px rgba(129, 212, 250, 0.7);
+            }
+        }
+
+        @keyframes floatBtnBounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-8px);
+            }
+
+            60% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .floating-nav-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            z-index: 9999;
+            background: linear-gradient(135deg, #81d4fa, #0277bd);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(129, 212, 250, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: floatBtnPulse 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .floating-nav-btn:hover {
+            animation: floatBtnBounce 1s ease infinite;
+            background: linear-gradient(135deg, #4fc3f7, #0288d1);
+        }
+
+        .floating-nav-btn .btn-icon {
+            font-size: 20px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .floating-nav-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                bottom: 20px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .floating-nav-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+                gap: 6px;
+            }
+        }
+    </style>
+    <a href="/" class="floating-nav-btn">
+        <span class="btn-icon">💒</span> Đám cưới của bố mẹ →
+    </a>
 
     <!-- Hero Section -->
     <header class="hero-section" id="home">
@@ -49,8 +135,7 @@
             <div class="hero-image-col fade-in-up" style="animation-delay: 0.2s;">
                 <div class="hero-image-container">
                     <!-- Placeholder image, will be replaced -->
-                    <img src="https://placehold.co/600x600" alt="Baby Photo"
-                        class="hero-img">
+                    <img src="https://placehold.co/600x600" alt="Baby Photo" class="hero-img">
                 </div>
             </div>
         </div>
